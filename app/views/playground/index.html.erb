@@ -1,0 +1,629 @@
+<div class="min-h-screen bg-slate-950 text-slate-100 font-sans pb-20">
+  <!-- Top Navigation & System Bar -->
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3.5">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25 text-xl">
+          🔑
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-extrabold tracking-tight text-white">UniKey <span class="text-indigo-400 font-medium">Cloud & Protocol</span></span>
+            <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-700/60 shadow-sm">RFC-001 Spec</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium hidden sm:block">Universal Cryptographic Trust Primitive for AI Agents</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2.5 text-xs">
+        <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/70">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-slate-300 font-medium">DNS:</span>
+          <span class="text-emerald-400 font-mono text-[11px]">unikey._domainkey.*</span>
+        </div>
+
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-950/70 border border-indigo-800/70 text-indigo-300">
+          <span class="font-semibold">Cipher:</span>
+          <span class="font-mono text-[11px]">Ed25519 (RFC 8032)</span>
+        </div>
+
+        <%= button_to playground_reset_ledger_path, method: :post, class: "px-3 py-1.5 bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800/80 rounded-lg text-xs font-semibold transition shadow-sm cursor-pointer flex items-center gap-1.5" do %>
+          <span>🗑️</span>
+          <span>Reset Ledger</span>
+        <% end %>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
+    <!-- Hero / Conceptual Blueprint -->
+    <section class="relative overflow-hidden rounded-2xl border border-indigo-900/50 bg-gradient-to-b from-slate-900 via-slate-900/90 to-indigo-950/30 p-6 sm:p-8 shadow-2xl">
+      <div class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-indigo-600/10 blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border-b border-slate-800/80 pb-6">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-800 text-xs font-semibold mb-3">
+            <span class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
+            The 3-Layer Authorization Architecture
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Verify Any Agent's Authority <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-300">Before It Acts</span>
+          </h1>
+          <p class="mt-2 text-sm text-slate-300 leading-relaxed">
+            API keys and tokens only verify <em>identity</em>. If a credential is stolen or an agent goes rogue, unauthorized actions run unchecked. 
+            UniKey introduces an <strong class="text-indigo-300">Authority Layer</strong>: every request carries a self-contained <strong>Trust Packet</strong> signed with an Ed25519 key anchored in public DNS.
+          </p>
+        </div>
+
+        <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-4 shadow-inner text-xs font-mono space-y-1.5 shrink-0 w-full lg:w-auto">
+          <div class="text-slate-400 font-sans font-semibold text-[11px] uppercase tracking-wider mb-2">Decentralized Verification Flow</div>
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="text-indigo-400 font-bold">1.</span> Agent signs payload with Ed25519 private key
+          </div>
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="text-indigo-400 font-bold">2.</span> Receiver fetches public key from DNS TXT
+          </div>
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="text-indigo-400 font-bold">3.</span> Receiver verifies signature + TTL + anti-replay
+          </div>
+          <div class="flex items-center gap-2 text-emerald-400">
+            <span class="text-emerald-400 font-bold">4.</span> Receiver returns signed response packet
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Layer Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 relative overflow-hidden">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Layer 1: Identity & Trust</div>
+          <div class="text-base font-extrabold text-white mt-1 flex items-center gap-2">
+            <span>👤</span> Who is acting?
+          </div>
+          <p class="text-xs text-slate-400 mt-2 leading-normal">
+            Domain identity (e.g. <code class="text-indigo-300 bg-slate-900 px-1 py-0.5 rounded">procure.ai</code>). Identity proves the caller, but does not prove the specific action was authorized.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-indigo-700/60 bg-indigo-950/40 p-4 relative overflow-hidden ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-950/40">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-indigo-300">Layer 2: UniKey Authorization</div>
+          <div class="text-base font-extrabold text-indigo-200 mt-1 flex items-center gap-2">
+            <span>🛡️</span> Is this action authorized?
+          </div>
+          <p class="text-xs text-indigo-300/90 mt-2 leading-normal">
+            RFC-001 Trust Packet verifying scope, spending limits (<code class="bg-indigo-900/60 px-1 py-0.5 rounded text-indigo-200">spend:50.0</code>), anti-replay nonce, and Ed25519 signature.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 relative overflow-hidden">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Layer 3: Execution</div>
+          <div class="text-base font-extrabold text-white mt-1 flex items-center gap-2">
+            <span>⚡</span> Autonomous Settlement
+          </div>
+          <p class="text-xs text-slate-400 mt-2 leading-normal">
+            Service fulfills the order and signs a <strong>Response Trust Packet</strong> back to the agent with cryptographic proof of fulfillment.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Catalog & Agent Registries -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Digital Resources Catalog (8 cols) -->
+      <div class="lg:col-span-7 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <span>🛒</span> Available AI Cloud Resources
+            </h2>
+            <p class="text-xs text-slate-400">Autonomous agents purchase these resources using Trust Packets</p>
+          </div>
+          <span class="text-xs text-indigo-400 font-mono"><%= @products.size %> items available</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <% @products.each do |product| %>
+            <div class="group rounded-xl border border-slate-800/80 bg-slate-950/70 p-4 hover:border-indigo-600/60 hover:bg-slate-900/60 transition shadow-sm">
+              <div class="flex items-start justify-between">
+                <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-indigo-950/80 text-indigo-300 border border-indigo-900/60"><%= product.sku %></span>
+                <span class="text-base font-extrabold text-emerald-400">$<%= sprintf('%.2f', product.price) %></span>
+              </div>
+              <h3 class="font-semibold text-sm text-slate-100 mt-2.5 group-hover:text-indigo-300 transition"><%= product.name %></h3>
+              <p class="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed"><%= product.description %></p>
+              
+              <div class="mt-3.5 pt-2.5 border-t border-slate-800/70 flex items-center justify-between text-xs">
+                <span class="text-slate-400">Stock: <strong class="text-slate-200"><%= product.stock %></strong></span>
+                <button type="button" onclick="selectProduct('<%= product.sku %>')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-indigo-600 text-slate-200 hover:text-white font-medium text-[11px] transition cursor-pointer">
+                  Select item →
+                </button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Registered Agents (5 cols) -->
+      <div class="lg:col-span-5 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <span>🤖</span> Agent Domain Identities
+            </h2>
+            <p class="text-xs text-slate-400">Public keys published in DNS TXT</p>
+          </div>
+          <span class="text-xs text-slate-400 font-mono"><%= @agents.size %> registered</span>
+        </div>
+
+        <div class="space-y-3">
+          <% @agents.each do |agent| %>
+            <div class="rounded-xl border <%= agent.active? ? 'border-slate-800 bg-slate-950/70' : 'border-rose-900/60 bg-rose-950/20' %> p-3.5 space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-bold font-mono text-slate-100"><%= agent.domain %></span>
+                  <% if agent.domain == "cloudstore.local" %>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800">Store Verifier</span>
+                  <% end %>
+                </div>
+                <% if agent.active? %>
+                  <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">Active</span>
+                <% else %>
+                  <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-950 text-rose-400 border border-rose-800">Revoked</span>
+                <% end %>
+              </div>
+
+              <div class="bg-slate-900/90 rounded-lg p-2 text-[11px] font-mono border border-slate-800 text-slate-300 break-all leading-tight">
+                <span class="text-indigo-400 font-semibold">DNS:</span> <%= agent.selector %>._domainkey.<%= agent.domain %><br>
+                <span class="text-slate-500">Key:</span> <%= agent.public_key[0..20] %>...
+              </div>
+
+              <div class="flex items-center justify-between text-xs pt-1">
+                <span class="text-slate-400">Authorized Cap: <strong class="text-emerald-400">$<%= sprintf('%.2f', agent.authorized_budget) %></strong></span>
+                <button type="button" onclick="selectAgent('<%= agent.domain %>')" class="text-indigo-400 hover:text-indigo-300 font-medium cursor-pointer text-xs">
+                  Use Agent in Simulator →
+                </button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Simulator & Verification Pipeline -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- Left: Simulator Controls & Editor (7 cols) -->
+      <section class="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <span>🎮</span> Interactive Trust Packet Crafting Studio
+            </h2>
+            <p class="text-xs text-slate-400">Generate signed packets or simulate security attacks with 1 click</p>
+          </div>
+          <span class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-indigo-300">Ed25519 Signed</span>
+        </div>
+
+        <!-- Scenario Buttons Grid -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">
+            Select Test Scenario / Attack Vector:
+          </label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            <button type="button" id="btn-legitimate" onclick="loadScenario('legitimate')" class="scenario-btn active-scenario p-2.5 rounded-xl border border-emerald-700/80 bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-200 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer shadow-sm">
+              <span>🟢</span> Legitimate Order
+            </button>
+            <button type="button" id="btn-tampered" onclick="loadScenario('tampered')" class="scenario-btn p-2.5 rounded-xl border border-rose-800/80 bg-rose-950/40 hover:bg-rose-900/60 text-rose-200 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer shadow-sm">
+              <span>🔴</span> Tamper Payload
+            </button>
+            <button type="button" id="btn-expired" onclick="loadScenario('expired')" class="scenario-btn p-2.5 rounded-xl border border-amber-800/80 bg-amber-950/40 hover:bg-amber-900/60 text-amber-200 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer shadow-sm">
+              <span>⏰</span> Expired Packet
+            </button>
+            <button type="button" id="btn-replay" onclick="simulateReplay()" class="scenario-btn p-2.5 rounded-xl border border-purple-800/80 bg-purple-950/40 hover:bg-purple-900/60 text-purple-200 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer shadow-sm">
+              <span>🔄</span> Replay Attack
+            </button>
+            <button type="button" id="btn-overbudget" onclick="loadScenario('overbudget')" class="scenario-btn p-2.5 rounded-xl border border-orange-800/80 bg-orange-950/40 hover:bg-orange-900/60 text-orange-200 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer shadow-sm">
+              <span>💸</span> Exceed Budget
+            </button>
+            <button type="button" id="btn-forged_key" onclick="loadScenario('forged_key')" class="scenario-btn p-2.5 rounded-xl border border-red-800/80 bg-red-950/40 hover:bg-red-900/60 text-red-200 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer shadow-sm">
+              <span>⚠️</span> Forged DNS Key
+            </button>
+          </div>
+        </div>
+
+        <!-- Scenario Description Banner -->
+        <div id="scenario-explanation" class="p-3.5 rounded-xl bg-slate-950 border border-indigo-900/50 text-xs leading-relaxed flex items-start gap-2.5">
+          <span class="text-base shrink-0">💡</span>
+          <div>
+            <strong class="text-indigo-300 font-semibold" id="scenario-title">Legitimate Purchase Scenario:</strong>
+            <span class="text-slate-300" id="scenario-desc">Packet is signed using the agent's real private key matching its DNS TXT public key, within valid expiration time and authorized budget.</span>
+          </div>
+        </div>
+
+        <!-- Form Selectors -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Signer Domain</label>
+            <select id="agent-domain-select" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-200 font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <% @agents.each do |agent| %>
+                <option value="<%= agent.domain %>"><%= agent.domain %></option>
+              <% end %>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Target Product</label>
+            <select id="product-sku-select" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-200 font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <% @products.each do |p| %>
+                <option value="<%= p.sku %>"><%= p.sku %> ($<%= p.price %>)</option>
+              <% end %>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Quantity</label>
+            <input type="number" id="quantity-input" value="2" min="1" max="50" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-200 font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Interactive JSON Textarea -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-medium text-slate-400 flex items-center gap-1.5">
+              <span>📄</span> Self-Contained Trust Packet JSON:
+            </span>
+            <button type="button" onclick="regeneratePacket()" class="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition cursor-pointer flex items-center gap-1">
+              <span>↻</span> Re-sign with current inputs
+            </button>
+          </div>
+          <textarea id="packet-json-textarea" rows="15" class="w-full font-mono text-xs bg-slate-950 text-indigo-200 border border-slate-800 rounded-xl p-3.5 leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-inner resize-y"><%= @initial_packet_json %></textarea>
+        </div>
+
+        <!-- Submit Action Bar -->
+        <div class="flex items-center justify-between pt-1">
+          <span class="text-xs text-slate-400 italic">You can edit the JSON above to test custom tampering</span>
+          <button type="button" id="submit-packet-btn" onclick="submitCurrentPacket()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold text-xs shadow-xl shadow-indigo-600/30 transition flex items-center gap-2 cursor-pointer active:scale-95">
+            <span>🚀</span> Send Trust Packet to Store
+          </button>
+        </div>
+      </section>
+
+      <!-- Right: Real-time 9-Stage Verification Timeline (5 cols) -->
+      <section class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <span>🔍</span> Verification Pipeline
+            </h2>
+            <p class="text-xs text-slate-400">Step-by-step cryptographic and policy verdicts</p>
+          </div>
+          <div id="overall-status-badge">
+            <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 font-medium">Ready</span>
+          </div>
+        </div>
+
+        <!-- Diagnostic Pipeline Steps -->
+        <div id="pipeline-steps-container" class="space-y-2.5">
+          <div class="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/60 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-bold shrink-0">1</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-200">RFC Structure Validation</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Validates required top-level RFC-001 sections (header, claims, payload, signatures)</div>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/60 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-bold shrink-0">2</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Anti-Replay Protection</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Checks seen packet nonce/ID in audit ledger to prevent duplicate execution</div>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/60 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-bold shrink-0">3</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-200">TTL & Expiration Check</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Ensures packet timestamp is fresh and not expired</div>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/60 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-bold shrink-0">4</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-200">DNS Public Key Discovery</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Queries unikey._domainkey.&lt;domain&gt; to fetch Ed25519 public key without pre-shared secrets</div>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/60 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-bold shrink-0">5</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Ed25519 Cryptographic Signature</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Verifies signature over canonical JSON digest. Catches any payload tampering</div>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/60 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-bold shrink-0">6</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Identity Revocation Check</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Confirms domain identity is active and not suspended</div>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/60 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-bold shrink-0">7</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Scope & Budget Cap Enforcement</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Enforces spend limits declared in claims scope vs cart total</div>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/60 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs font-bold shrink-0">8</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Settlement & Signed Response Packet</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Fulfills order and signs dual-sided response packet back to agent callback URL</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signed Response Packet Container -->
+        <div id="response-packet-container" class="hidden pt-3 border-t border-slate-800 space-y-2">
+          <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><span>📜</span> Store Signed Response Packet</span>
+            <span class="text-[10px] text-slate-400 font-mono">Dual-Sided Trust</span>
+          </div>
+          <pre id="response-packet-pre" class="font-mono text-[11px] bg-slate-950 text-emerald-300 p-3 rounded-xl border border-emerald-900/60 max-h-56 overflow-y-auto leading-relaxed shadow-inner"></pre>
+        </div>
+      </section>
+    </div>
+
+    <!-- Live Authorization Audit Ledger Table -->
+    <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <span>🛡️</span> Tamper-Evident Authorization Audit Ledger
+          </h2>
+          <p class="text-xs text-slate-400">All received packets are permanently logged with status, SHA-256 payload digest, and cryptographic proofs</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-mono text-indigo-400 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
+            <span id="ledger-count"><%= @ledgers.size %></span> records logged
+          </span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-800">
+        <table class="min-w-full divide-y divide-slate-800 text-xs">
+          <thead class="bg-slate-950/80">
+            <tr class="text-slate-400 text-left font-mono">
+              <th class="py-3 px-4 font-semibold">Status</th>
+              <th class="py-3 px-4 font-semibold">Packet ID</th>
+              <th class="py-3 px-4 font-semibold">Signer Domain</th>
+              <th class="py-3 px-4 font-semibold">Subject</th>
+              <th class="py-3 px-4 font-semibold">Result / Failure Reason</th>
+              <th class="py-3 px-4 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody id="ledger-table-body" class="divide-y divide-slate-800/80 bg-slate-950/40 font-mono">
+            <% if @ledgers.any? %>
+              <% @ledgers.each do |entry| %>
+                <tr class="hover:bg-slate-800/40 transition">
+                  <td class="py-3 px-4">
+                    <% if entry.verified? %>
+                      <span class="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-[11px] font-sans font-semibold">✓ Verified</span>
+                    <% else %>
+                      <span class="px-2.5 py-0.5 rounded-full bg-rose-950 text-rose-400 border border-rose-800 text-[11px] font-sans font-semibold">✗ Rejected</span>
+                    <% end %>
+                  </td>
+                  <td class="py-3 px-4 text-slate-300 font-semibold"><%= entry.packet_id[0..13] %>...</td>
+                  <td class="py-3 px-4 text-indigo-300 font-semibold"><%= entry.signer_domain %></td>
+                  <td class="py-3 px-4 text-slate-400"><%= entry.subject %></td>
+                  <td class="py-3 px-4 <%= entry.verified? ? 'text-emerald-400 font-semibold' : 'text-rose-400' %>">
+                    <%= entry.verified? ? "Order Fulfilled (Digest: #{entry.payload_digest[0..7]}...)" : entry.failure_reason %>
+                  </td>
+                  <td class="py-3 px-4 text-slate-500 font-sans"><%= entry.created_at.strftime('%H:%M:%S') %></td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr id="empty-ledger-row">
+                <td colspan="6" class="py-8 text-center text-slate-500 font-sans">
+                  No packets logged yet. Use the simulator above to submit your first Trust Packet!
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  let lastSubmittedPacket = null;
+
+  const scenarioDescriptions = {
+    legitimate: {
+      title: "Legitimate Purchase Scenario:",
+      desc: "Valid Ed25519 signature generated with the agent's real private key matching its public DNS key, within valid expiration time and authorized budget."
+    },
+    tampered: {
+      title: "Tampered Payload Attack:",
+      desc: "Signs a valid request, but the payload parameters are altered post-signing (e.g. quantity forged to +50). Step 5 (Ed25519 signature verification) will catch and reject this tampering!"
+    },
+    expired: {
+      title: "Expired Packet Attack:",
+      desc: "Packet was generated with an expires_at timestamp 10 minutes in the past. Step 3 (TTL & Expiration) catches it before crypto is even evaluated."
+    },
+    replay: {
+      title: "Replay Attack:",
+      desc: "Resends the exact same Trust Packet and Packet ID that was already accepted earlier. Step 2 (Anti-Replay Ledger) detects the duplicate nonce and blocks execution!"
+    },
+    overbudget: {
+      title: "Exceed Budget Policy Attack:",
+      desc: "The agent's Trust Packet claims scope caps spending at $1.00, but orders a higher-priced resource. Step 7 enforces the spending boundary and aborts execution."
+    },
+    forged_key: {
+      title: "Forged Key / Impersonation Attack:",
+      desc: "Signed with an untrusted private key whose public key is NOT published in DNS for this domain. Step 5 fails due to key mismatch."
+    }
+  };
+
+  function selectProduct(sku) {
+    document.getElementById('product-sku-select').value = sku;
+    regeneratePacket();
+  }
+
+  function selectAgent(domain) {
+    document.getElementById('agent-domain-select').value = domain;
+    regeneratePacket();
+  }
+
+  function updateScenarioUI(scenario) {
+    document.querySelectorAll('.scenario-btn').forEach(btn => {
+      btn.classList.remove('ring-2', 'ring-indigo-400', 'scale-[1.02]');
+    });
+
+    const activeBtn = document.getElementById(`btn-${scenario}`);
+    if (activeBtn) {
+      activeBtn.classList.add('ring-2', 'ring-indigo-400', 'scale-[1.02]');
+    }
+
+    const info = scenarioDescriptions[scenario] || scenarioDescriptions.legitimate;
+    document.getElementById('scenario-title').innerText = info.title;
+    document.getElementById('scenario-desc').innerText = info.desc;
+  }
+
+  async function loadScenario(scenario) {
+    updateScenarioUI(scenario);
+
+    const agentDomain = document.getElementById('agent-domain-select').value;
+    const sku = document.getElementById('product-sku-select').value;
+    const quantity = document.getElementById('quantity-input').value;
+
+    try {
+      const response = await fetch('/playground/generate_packet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agent_domain: agentDomain,
+          sku: sku,
+          quantity: quantity,
+          scenario: scenario
+        })
+      });
+
+      const data = await response.json();
+      if (data.packet_json) {
+        document.getElementById('packet-json-textarea').value = data.packet_json;
+      }
+    } catch (err) {
+      console.error("Failed to generate packet:", err);
+    }
+  }
+
+  function simulateReplay() {
+    if (!lastSubmittedPacket) {
+      alert("⚠️ Submit a legitimate packet first so there is a recorded Packet ID to replay!");
+      return;
+    }
+    updateScenarioUI('replay');
+    document.getElementById('packet-json-textarea').value = lastSubmittedPacket;
+  }
+
+  async function regeneratePacket() {
+    await loadScenario('legitimate');
+  }
+
+  async function submitCurrentPacket() {
+    const jsonText = document.getElementById('packet-json-textarea').value;
+    const btn = document.getElementById('submit-packet-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="animate-spin">⏳</span> Verifying against DNS & Crypto...';
+
+    try {
+      const response = await fetch('/playground/submit_packet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ packet_json: jsonText })
+      });
+
+      const data = await response.json();
+      lastSubmittedPacket = jsonText;
+      renderPipelineResults(data);
+      prependLedgerRow(data);
+    } catch (err) {
+      alert("Error submitting packet: " + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span>🚀</span> Send Trust Packet to Store';
+    }
+  }
+
+  function renderPipelineResults(result) {
+    const statusBadge = document.getElementById('overall-status-badge');
+    const container = document.getElementById('pipeline-steps-container');
+    const respContainer = document.getElementById('response-packet-container');
+    const respPre = document.getElementById('response-packet-pre');
+
+    if (result.success) {
+      statusBadge.innerHTML = '<span class="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-700 font-bold shadow-lg shadow-emerald-950/60 flex items-center gap-1.5">✓ AUTHORIZED & EXECUTED</span>';
+      if (result.response_packet_json) {
+        respContainer.classList.remove('hidden');
+        respPre.innerText = result.response_packet_json;
+      }
+    } else {
+      statusBadge.innerHTML = `<span class="text-xs px-3 py-1 rounded-full bg-rose-950 text-rose-300 border border-rose-800 font-bold shadow-lg shadow-rose-950/60 flex items-center gap-1.5">✗ BLOCKED: ${result.error_code || 'REJECTED'}</span>`;
+      respContainer.classList.add('hidden');
+    }
+
+    if (result.steps && result.steps.length > 0) {
+      container.innerHTML = '';
+      result.steps.forEach((step, idx) => {
+        const passed = step.passed;
+        const div = document.createElement('div');
+        div.className = `p-3.5 rounded-xl border transition-all duration-300 ${
+          passed ? 'border-emerald-800/60 bg-emerald-950/30 text-emerald-100' : 'border-rose-800/80 bg-rose-950/40 text-rose-100'
+        } flex items-start gap-3.5 shadow-sm`;
+
+        div.innerHTML = `
+          <div class="w-6 h-6 rounded-full ${
+            passed ? 'bg-emerald-800 text-emerald-200' : 'bg-rose-800 text-rose-200'
+          } flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+            ${passed ? '✓' : '✗'}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="text-xs font-bold ${passed ? 'text-emerald-200' : 'text-rose-200'}">${step.name}</div>
+            <div class="text-[11px] ${passed ? 'text-emerald-300/80' : 'text-rose-300/90'} mt-0.5 font-mono break-all">${step.detail}</div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+  }
+
+  function prependLedgerRow(result) {
+    const tbody = document.getElementById('ledger-table-body');
+    const emptyRow = document.getElementById('empty-ledger-row');
+    if (emptyRow) emptyRow.remove();
+
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-slate-800/50 transition bg-indigo-950/30';
+
+    const statusBadge = result.success
+      ? '<span class="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-[11px] font-sans font-semibold">✓ Verified</span>'
+      : '<span class="px-2.5 py-0.5 rounded-full bg-rose-950 text-rose-400 border border-rose-800 text-[11px] font-sans font-semibold">✗ Rejected</span>';
+
+    const failureReason = result.success ? `Order Fulfilled (#${result.order_id})` : (result.error_message || result.error_code);
+
+    tr.innerHTML = `
+      <td class="py-3 px-4">${statusBadge}</td>
+      <td class="py-3 px-4 text-slate-300 font-semibold">${(result.packet_id || 'unknown').substring(0, 14)}...</td>
+      <td class="py-3 px-4 text-indigo-300 font-semibold">${result.signer || 'unknown'}</td>
+      <td class="py-3 px-4 text-slate-400">${result.subject || 'unknown'}</td>
+      <td class="py-3 px-4 ${result.success ? 'text-emerald-400 font-semibold' : 'text-rose-400'}">${failureReason}</td>
+      <td class="py-3 px-4 text-slate-400 font-sans">Just now</td>
+    `;
+
+    tbody.prepend(tr);
+
+    const countElem = document.getElementById('ledger-count');
+    if (countElem) {
+      countElem.innerText = parseInt(countElem.innerText || '0') + 1;
+    }
+  }
+
+  document.getElementById('quantity-input').addEventListener('change', regeneratePacket);
+  document.getElementById('product-sku-select').addEventListener('change', regeneratePacket);
+  document.getElementById('agent-domain-select').addEventListener('change', regeneratePacket);
+</script>
